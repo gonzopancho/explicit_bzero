@@ -118,6 +118,16 @@ _____
 ~/explict_bzero_tests %
 ```
 
+There are three cases that fail to clear the 'secret' because the call to explicit_bzero() has been elided by the compiler.
+
+- elf_hook_impl exactly matches the implementation in OpenBSD and FreeBSD (links above).
+
+- simple_impl exactly matches the implementation in the implementation in crypto/openssh/openbsd-compat/explicit_bzero.c, this is used if HAVE_EXPLICIT_BZERO is not defined.
+
+-optnone_impl fails because the gcc attribute "__attribute__ ((optimize(0)))" isn't supported with Clang.
+
+All the other tests currently pass (on FreeBSD 12).
+
 ## License
 
 License is in the top of explicit_bzero_test.c
