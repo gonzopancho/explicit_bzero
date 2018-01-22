@@ -96,7 +96,7 @@ memory_barrier_impl.o: explicit_bzero_test.c
 memory_barrier_impl: memory_barrier_impl.o
 	$(CC) $(LDFLAGS) -o memory_barrier_impl memory_barrier_impl.o
 
-test: .IGNORE
+test: $(BIN) .IGNORE
 	for i in $(BIN); do echo $$i; ./$$i; echo "_____"; done;
 
 clean:
