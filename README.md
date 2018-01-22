@@ -115,7 +115,7 @@ extern_plus_hook_impl
 _____
 memory_barrier_impl
 _____
-:~/explict_bzero_tests %
+~/explict_bzero_tests %
 ```
 
 ## License
