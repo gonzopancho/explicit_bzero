@@ -15,6 +15,7 @@ I wanted to test explicit_bzero in the preseence of LTO
 
 On FreeBSD 12:
 
+```
 ~/explict_bzero_tests % make test
 cc -c -O3 -flto -DELF_HOOK_IMPL=1 -o elf_hook_impl.o explicit_bzero_test.c
 cc  -fuse-ld=lld -o elf_hook_impl elf_hook_impl.o
@@ -72,6 +73,7 @@ _____
 memory_barrier_impl
 _____
 :~/explict_bzero_tests %
+```
 
 ## License
 
