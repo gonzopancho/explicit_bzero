@@ -1,5 +1,44 @@
 ## Synopsis
 
+Testharness for function elision.
+
+There is an issue where calls to bzero (memset(), etc) can be eliminated due to an optimizing compiler eliminating the call to bzero() (or memset(), etc) because the arguments to the call are not subsequently used by the function. The compiler can interpret this as "no side effects", and eliminate the call.
+
+The origin source of issue to being brought to light with a 'security focus' is here: http://cwe.mitre.org/data/definitions/14.html
+
+OpenBSD implemented explicit_bzero() as a response (over a decade after the report) in OpenBSD 5.5 (released May 1, 2014).
+http://www.openbsd.org/cgi-bin/man.cgi/OpenBSD-current/man3/bzero.3?query=explicit%5fbzero&arch=i386
+
+The implementation in OpenBSD is here:
+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/sys/lib/libkern/explicit_bzero.c?rev=1.3&content-type=text/x-cvsweb-markup
+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/sys/lib/libkern/bzero.c?rev=1.9&content-type=text/x-cvsweb-markup
+http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/sys/lib/libkern/memset.c?rev=1.7&content-type=text/x-cvsweb-markup
+
+FreeBSD subsequently copied this implementation.
+https://github.com/freebsd/freebsd/blob/e79c62ff68fc74d88cb6f479859f6fae9baa5101/crypto/openssh/openbsd-compat/explicit_bzero.c
+https://github.com/freebsd/freebsd/blob/e79c62ff68fc74d88cb6f479859f6fae9baa5101/sys/libkern/explicit_bzero.c
+
+In the presence of a sufficiently optimized compiler, I believe both implementations are flawed.
+
+Link Time Optimization (LTO) is a problem for several implementations of explicit_bzero(). 
+
+LTO is enabled today in clang. It also works with several versions of GCC.
+
+On FreeBSD 12:
+```
+CFLAGS = -O <any level) -flto
+LDFLAGS += -fuse-ld=lld
+```
+
+See also:
+http://llvm.org/docs/LinkTimeOptimization.html
+http://llvm.org/docs/GoldPlugin.html
+https://wiki.freebsd.org/LinkTimeOptimisations <--- page is out of date
+
+This exact scenario happened, on FreeBSD, (and OpenBSD): https://github.com/libressl-portable/openbsd/issues/5 
+(note that someone tested on OpenBSD 5.5 with GCC 4.8.2 from ports, and developed a "patch" that depends on mfence (compiler side-effects):
+https://github.com/libressl-portable/openbsd/issues/5#issuecomment-50775260)
+
 Code originally found here
 https://gist.github.com/jiixyj/3e3389649c866f7ff7bd
 
