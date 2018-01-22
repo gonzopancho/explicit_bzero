@@ -26,11 +26,13 @@ Link Time Optimization (LTO) is a problem for several implementations of explici
 
 LTO is enabled today in clang. It also works with several versions of GCC.
 
-On FreeBSD 12:
+On FreeBSD 12 with clang/lld:
 ```
 CFLAGS = -O <any level) -flto
 LDFLAGS += -fuse-ld=lld
 ```
+
+and WITH_LLD_IS_LLD=yes in /etc/src.conf to enable lld.
 
 See also:
 http://llvm.org/docs/LinkTimeOptimization.html
