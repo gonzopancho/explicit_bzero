@@ -124,7 +124,7 @@ There are three cases that fail to clear the 'secret' because the call to explic
 
 - simple_impl exactly matches the implementation in the implementation in crypto/openssh/openbsd-compat/explicit_bzero.c, this is used if HAVE_EXPLICIT_BZERO is not defined.
 
-- optnone_impl fails because the gcc attribute "__attribute__ ((optimize(0)))" isn't supported with Clang.
+- optnone_impl fails because the gcc-ism "__attribute__ ((optimize(0)))" isn't supported with Clang.
 
 All the other tests currently pass (on FreeBSD 12).
 
