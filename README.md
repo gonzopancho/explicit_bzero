@@ -15,5 +15,5 @@ I wanted to test explicit_bzero in the preseence of LTO
 
 ## License
 
-License is in the top of explicit_bzero.c
+License is in the top of explicit_bzero_test.c
 
