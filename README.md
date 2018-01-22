@@ -1,6 +1,8 @@
 ## Synopsis
 
-Testharness for function elision.
+Test harness for function elision.
+
+## Discussion
 
 There is an issue where calls to bzero (memset(), etc) can be eliminated due to an optimizing compiler eliminating the call to bzero() (or memset(), etc) because the arguments to the call are not subsequently used by the function. The compiler can interpret this as "no side effects", and eliminate the call.
 
